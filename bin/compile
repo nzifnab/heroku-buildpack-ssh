@@ -31,7 +31,7 @@ FileUtils.mkdir_p("~/.ssh")
 run("chmod 755 #{path}")
 
 run("echo '#{ENV['SSH_KEY']}' > ~/.ssh/id_rsa")
-chmod 444 ~/.ssh/id_rsa
+run("chmod 444 ~/.ssh/id_rsa")
 
 run("echo 'StrictHostKeyChecking=no' > ~/.ssh/config")
 run("chmod 655 ~/.ssh/config")
