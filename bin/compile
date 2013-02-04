@@ -27,11 +27,18 @@
 #chmod 600 ~/.ssh/config
 require 'fileutils'
 
+# run a shell comannd and pipe stderr to stdout
+# @param [String] command to be run
+# @return [String] output of stdout and stderr
+def run(command)
+  %x{ #{command} 2>&1 }
+end
+
 FileUtils.mkdir_p("~/.ssh")
-run("chmod 755 ~/.ssh")
+run("chmod 700 ~/.ssh")
 
 run("echo '#{ENV['SSH_KEY']}' > ~/.ssh/id_rsa")
-run("chmod 444 ~/.ssh/id_rsa")
+run("chmod 400 ~/.ssh/id_rsa")
 
 run("echo 'StrictHostKeyChecking=no' > ~/.ssh/config")
-run("chmod 655 ~/.ssh/config")
+run("chmod 600 ~/.ssh/config")
