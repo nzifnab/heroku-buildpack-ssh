@@ -48,14 +48,14 @@ Dir.chdir(build_path)
 allow_git do
   if ENV['SSH_KEY']
     puts "Adding private SSH key from ENV variable"
-    FileUtils.mkdir_p("~/.ssh")
-    run("chmod 700 ~/.ssh")
+    FileUtils.mkdir_p(".ssh")
+    run("chmod 700 .ssh")
 
-    run("echo '#{ENV['SSH_KEY']}' > ~/.ssh/id_rsa")
-    run("chmod 400 ~/.ssh/id_rsa")
+    run("echo '#{ENV['SSH_KEY']}' > .ssh/id_rsa")
+    run("chmod 400 .ssh/id_rsa")
 
-    run("echo 'StrictHostKeyChecking=no' > ~/.ssh/config")
-    run("chmod 600 ~/.ssh/config")
+    run("echo 'StrictHostKeyChecking=no' > .ssh/config")
+    run("chmod 600 .ssh/config")
   else
     puts "No SSH Key found in ENV variable"
   end
