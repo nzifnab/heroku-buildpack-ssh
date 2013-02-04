@@ -34,11 +34,22 @@ def run(command)
   %x{ #{command} 2>&1 }
 end
 
-FileUtils.mkdir_p("~/.ssh")
-run("chmod 700 ~/.ssh")
+# executes the block with GIT_DIR environment variable removed since it can mess with the current working directory git thinks it's in
+# @param [block] block to be executed in the GIT_DIR free context
+def allow_git(&blk)
+  git_dir = ENV.delete("GIT_DIR") # can mess with bundler
+  blk.call
+  ENV["GIT_DIR"] = git_dir
+end
 
-run("echo '#{ENV['SSH_KEY']}' > ~/.ssh/id_rsa")
-run("chmod 400 ~/.ssh/id_rsa")
 
-run("echo 'StrictHostKeyChecking=no' > ~/.ssh/config")
-run("chmod 600 ~/.ssh/config")
+allow_git do
+  FileUtils.mkdir_p("~/.ssh")
+  run("chmod 700 ~/.ssh")
+
+  run("echo '#{ENV['SSH_KEY']}' > ~/.ssh/id_rsa")
+  run("chmod 400 ~/.ssh/id_rsa")
+
+  run("echo 'StrictHostKeyChecking=no' > ~/.ssh/config")
+  run("chmod 600 ~/.ssh/config")
+end
