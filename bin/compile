@@ -42,6 +42,8 @@ def allow_git(&blk)
   ENV["GIT_DIR"] = git_dir
 end
 
+build_path = ARGV[0]
+Dir.chdir(build_path)
 
 allow_git do
   if ENV['SSH_KEY']
